@@ -1,0 +1,9 @@
+*.swp
+*.bak
+*.tmp
+temp
+*.v*
+*.works
+v0
+venv
+.venv

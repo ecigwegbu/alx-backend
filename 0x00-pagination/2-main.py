@@ -3,12 +3,22 @@
 Main file
 """
 
-index_range = __import__('0-simple_helper_function').index_range
+Server = __import__('2-hypermedia_pagination').Server
 
-res = index_range(1, 7)
-print(type(res))
-print(res)
+server = Server()
 
-res = index_range(page=3, page_size=15)
-print(type(res))
-print(res)
+print(server.get_hyper(0, 0))
+print("---")
+print(server.get_hyper(1, 2))
+print("---")
+print(server.get_hyper(0, 2))
+print("---")
+print(server.get_hyper(2, 0))
+print("---")
+print(server.get_hyper(2, 1))
+print("---")
+print(server.get_hyper(2, 2))
+print("---")
+print(server.get_hyper(100, 3))
+print("---")
+print(server.get_hyper(3000, 100))

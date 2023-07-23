@@ -59,7 +59,7 @@ class Server:
             return []
         return self.dataset()[start_index: end_index]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """Implement a get_hyper method that takes the same arguments
         (and defaults) as get_page and returns a dictionary containing the
         following key-value pairs:
@@ -71,47 +71,27 @@ class Server:
         total_pages: the total number of pages in the dataset as an integer
         Make sure to reuse get_page in your implementation.
         You can use the math module if necessary."""
-        print("Page: {}, Page Size: {}".format(page, page_size))
         total_data_size = len(self.dataset())
         total_pages = None
         prev_page = None
         next_page = None
         try:
             data = self.get_page(page, page_size)
-            print(0)
             returned_page_size = len(data)
-            print(1)
             total_pages = math.ceil(total_data_size / page_size)
-            print(2)
             prev_page = page - 1 if page >= 2 else None
-            print(3)
             next_page = page + 1 if page < total_pages else None
-            print(4)
         except AssertionError:
-            print(5)
             data = []
-            print(6)
             returned_page_size = 0
-            print(7)
             if type(page_size) == int and page_size > 0:  # page is the prob
-                print(8)
                 total_pages = math.ceil(total_data_size / page_size)
                 next_page = 1
             elif type(page_size) == int and page_size == 0:  # special case ?
                 page = None
             if type(page) == int and page > 0 and total_pages is not None:
-                print(9)
                 prev_page = page - 1 if page >= 2 else None
-                print(10)
                 next_page = page + 1 if page < total_pages else None
-            # both page and page_size are invalid:
-            # page = None
-            # page_size = None
-            print(11)
-            # prev_page = None
-            # next_page = None
-            # total_pages = None
-
         return {
             "page_size": returned_page_size,
             "page": page,

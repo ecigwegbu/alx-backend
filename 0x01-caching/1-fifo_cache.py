@@ -31,7 +31,8 @@ class FIFOCache(BaseCaching):
         """Add an item in the cache. Overides not-implemented base class
         function with same name"""
         if key is not None:
-            if len(self.cache_data) < self.MAX_ITEMS:
+            if key in self.cache_data.keys() or len(self.cache_data) <\
+                    self.MAX_ITEMS:
                 self.cache_data.update({key: item})
             else:
                 discarded_item_key = next(iter(self.cache_data))

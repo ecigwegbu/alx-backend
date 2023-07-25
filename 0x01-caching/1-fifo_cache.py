@@ -24,8 +24,8 @@ class FIFOCache(BaseCaching):
     If key is None or if the key doesn’t exist in self.cache_data, return None.
     """
     def __init__(self):
+        """Constructor for the derived class"""
         super().__init__()
-        # self.MAX_ITEMS = maxsize
 
     def put(self, key, item):
         """Add an item in the cache. Overides not-implemented base class

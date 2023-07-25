@@ -30,7 +30,7 @@ class FIFOCache(BaseCaching):
     def put(self, key, item):
         """Add an item in the cache. Overides not-implemented base class
         function with same name"""
-        if key is and item:
+        if key and item:
             if key in self.cache_data.keys() or len(self.cache_data) <\
                     self.MAX_ITEMS:
                 self.cache_data.update({key: item})

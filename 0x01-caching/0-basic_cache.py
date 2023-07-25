@@ -27,7 +27,6 @@ class BasicCache(BaseCaching):
     def put(self, key, item):
         """Add an item in the cache. Overides not-implemented base class
         function with same name"""
-        # if key is not None:
         if key and item:
             self.cache_data.update({key: item})  # [key] = item
 

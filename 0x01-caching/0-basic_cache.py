@@ -22,7 +22,7 @@ class BasicCache(BaseCaching):
     def __init__(self):
         """Constructor for the derived class"""
         super().__init__()
-        self.MAX_ITEMS = maxsize
+        # self.MAX_ITEMS = maxsize
 
     def put(self, key, item):
         """Add an item in the cache. Overides not-implemented base class

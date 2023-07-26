@@ -4,53 +4,53 @@ B: World
 C: Holberton
 D: School
 World
-DISCARD: A
+DISCARD: B
 Current cache:
-B: World
+A: Hello
 C: Holberton
 D: School
 E: Battery
 Current cache:
-B: World
+A: Hello
 C: Street
 D: School
 E: Battery
+Hello
 None
-World
 Street
-DISCARD: D
-Current cache:
-B: World
-C: Street
-E: Battery
-F: Mission
-DISCARD: E
-Current cache:
-B: World
-C: Street
-F: Mission
-G: San Francisco
-DISCARD: B
-Current cache:
-C: Street
-F: Mission
-G: San Francisco
-H: H
 DISCARD: C
 Current cache:
+A: Hello
+D: School
+E: Battery
 F: Mission
-G: San Francisco
-H: H
-I: I
 DISCARD: F
 Current cache:
+A: Hello
+D: School
+E: Battery
 G: San Francisco
-H: H
-I: I
-J: J
 DISCARD: G
 Current cache:
+A: Hello
+D: School
+E: Battery
 H: H
+DISCARD: H
+Current cache:
+A: Hello
+D: School
+E: Battery
 I: I
+DISCARD: I
+Current cache:
+A: Hello
+D: School
+E: Battery
 J: J
+DISCARD: J
+Current cache:
+A: Hello
+D: School
+E: Battery
 K: K

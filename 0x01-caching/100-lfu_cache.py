@@ -29,6 +29,7 @@ class LFUCache(BaseCaching):
         """Constructor for the derived class"""
         super().__init__()
         self.access_age = {}
+        self.access_freq = {}
 
     def put(self, key, item):
         """Add an item in the cache. Overides not-implemented base class
@@ -40,19 +41,41 @@ class LFUCache(BaseCaching):
             else:  # cache is full and key does not exist
                 # print("cache_data:", self.cache_data)
                 # print("access_age:", self.access_age)
-                highest_age = max(self.access_age.values())
+
+                # determine least frequency
+                least_freq = min(self.access_freq.values())
+                # print("cache_data", self.cache_data)
+                # print("access_age", self.access_age)
+                # print("access_freq", self.access_freq)
+                # print("least_freq:", least_freq)
+                # get dict of elements with least freq
+                cache_data_least_freq = {key: val for key, val in
+                                         self.access_freq.items() if
+                                         val == least_freq}
+                # print("hellooooooooooooooo")
+                # get dict of access_age for those with least freq
+                access_age_least_freq = {key: self.access_age[key] for key in
+                                         cache_data_least_freq}
+                # finally get the key with the least access age:
+                least_age_least_freq = min(access_age_least_freq.values())
+                key_least_age_least_freq = self.get_dict_key(
+                        access_age_least_freq, least_age_least_freq)
+
+                # highest_age = max(self.access_age.values())
                 # print("least_age:", least_age)
-                key_highest_age = self.get_dict_key(self.access_age,
-                                                    highest_age)
+                # key_highest_age = self.get_dict_key(self.access_age,
+                #                                     highest_age)
                 # print("key_least_age:", key_least_age)
-                discarded_item_key = key_highest_age
+                discarded_item_key = key_least_age_least_freq
                 self.access_age.pop(discarded_item_key)
+                self.access_freq.pop(discarded_item_key)
                 self.cache_data.pop(discarded_item_key)
                 print("DISCARD: {}".format(discarded_item_key))
                 self.update_cache(key, item)
 
     def update_cache(self, key, item):
-        """Append a new key when the cache is not full, with unique new key"""
+        """Append/Update a new key when the cache is not full,
+        with unique new key"""
         next_age = 1 if len(self.cache_data) == 0\
             else max(self.access_age.values()) + 1
         # conditionally rebase access_age
@@ -64,6 +87,9 @@ class LFUCache(BaseCaching):
         # print("next_age:", next_age, "key:", key, "value:", item)
         # print("access_age:", self.access_age)
         self.access_age.update({key: next_age})
+        self.access_freq.update({key:
+                                 1 if key not in self.access_freq else
+                                 self.access_freq[key] + 1})
         # print("Here+++++++++++++++++")
         self.cache_data.update({key: item})
 
@@ -92,6 +118,7 @@ class LFUCache(BaseCaching):
                 next_age = max(self.access_age.values()) + 1
             #  print("BBBB next_age:", next_age, "key:", key)
             self.access_age.update({key: next_age})
+            self.access_freq.update({key: self.access_freq[key] + 1})
             #  print("Here+++++++++++++++++")
 
         return self.cache_data.get(key)

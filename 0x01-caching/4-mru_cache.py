@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""d. MRU Caching"""
+"""4. MRU Caching"""
 from base_caching import BaseCaching
 from sys import maxsize
 
@@ -38,13 +38,9 @@ class MRUCache(BaseCaching):
                     self.MAX_ITEMS:
                 self.update_cache(key, item)
             else:  # cache is full and key does not exist
-                # print("cache_data:", self.cache_data)
-                # print("access_age:", self.access_age)
                 highest_age = max(self.access_age.values())
-                # print("least_age:", least_age)
                 key_highest_age = self.get_dict_key(self.access_age,
                                                     highest_age)
-                # print("key_least_age:", key_least_age)
                 discarded_item_key = key_highest_age
                 self.access_age.pop(discarded_item_key)
                 self.cache_data.pop(discarded_item_key)
@@ -61,18 +57,13 @@ class MRUCache(BaseCaching):
             access_age = {key: (age - min_age) for key, age in
                           self.access_age.items()}
             next_age = max(self.access_age.values()) + 1
-        # print("next_age:", next_age, "key:", key, "value:", item)
-        # print("access_age:", self.access_age)
         self.access_age.update({key: next_age})
-        # print("Here+++++++++++++++++")
         self.cache_data.update({key: item})
 
     def get_dict_key(self, mydict, value):
         """Return the first matching key for a given dict value or None if it
         does not exist"""
-        # print("YYYYYYaccess_age:", self.access_age)
         for key in mydict.keys():
-            # print("key, value:", key, mydict[key])
             if mydict[key] == value:
                 return key
         return None
@@ -90,9 +81,7 @@ class MRUCache(BaseCaching):
                 access_age = {key: (age - min_age) for key, age in
                               self.access_age.items()}
                 next_age = max(self.access_age.values()) + 1
-            #  print("BBBB next_age:", next_age, "key:", key)
             self.access_age.update({key: next_age})
-            #  print("Here+++++++++++++++++")
         return self.cache_data.get(key)
 
 

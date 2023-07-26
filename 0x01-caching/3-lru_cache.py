@@ -37,6 +37,8 @@ class LRUCache(BaseCaching):
         if key and item:
             if key in self.cache_data.keys() or len(self.cache_data) <\
                     self.MAX_ITEMS:
+                #  print("cache_data:", self.cache_data)
+                #  print("access_age:", self.access_age)
                 self.update_cache(key, item)
             else:  # cache is full and key does not exist
                 # print("cache_data:", self.cache_data)
@@ -46,6 +48,8 @@ class LRUCache(BaseCaching):
                 key_least_age = self.get_dict_key(self.access_age, least_age)
                 # print("key_least_age:", key_least_age)
                 discarded_item_key = key_least_age
+                #  print("cache_data:", self.cache_data)
+                #  print("access_age:", self.access_age)
                 self.access_age.pop(discarded_item_key)
                 self.cache_data.pop(discarded_item_key)
                 print("DISCARD: {}".format(discarded_item_key))
@@ -62,8 +66,7 @@ class LRUCache(BaseCaching):
                           self.access_age.items()}
             next_age = max(self.access_age.values()) + 1
         self.max_age = next_age
-        # print("next_age:", next_age, "key:", key, "value:", item)
-        # print("access_age:", self.access_age)
+        #  print("BBBB next_age:", next_age, "key:", key, "value:", item)
         self.access_age.update({key: next_age})
         # print("Here+++++++++++++++++")
         self.cache_data.update({key: item})
@@ -82,6 +85,19 @@ class LRUCache(BaseCaching):
         """ Get an item by key. Overides not-implemented base class
         function with same name
         """
+        if key and key in self.cache_data:
+            next_age = 1 if (self.max_age == 0)\
+                else max(self.access_age.values()) + 1
+            # conditionally rebase access_age
+            if next_age == maxsize:
+                min_age = min(self.access_age.values())
+                access_age = {key: (age - min_age) for key, age in
+                              self.access_age.items()}
+                next_age = max(self.access_age.values()) + 1
+            self.max_age = next_age
+            #  print("BBBB next_age:", next_age, "key:", key)
+            self.access_age.update({key: next_age})
+            #  print("Here+++++++++++++++++")
         return self.cache_data.get(key)
 
 

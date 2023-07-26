@@ -83,6 +83,19 @@ class MRUCache(BaseCaching):
         """ Get an item by key. Overides not-implemented base class
         function with same name
         """
+        if key and key in self.cache_data:
+            next_age = 1 if (self.max_age == 0)\
+                else max(self.access_age.values()) + 1
+            # conditionally rebase access_age
+            if next_age == maxsize:
+                min_age = min(self.access_age.values())
+                access_age = {key: (age - min_age) for key, age in
+                              self.access_age.items()}
+                next_age = max(self.access_age.values()) + 1
+            self.max_age = next_age
+            #  print("BBBB next_age:", next_age, "key:", key)
+            self.access_age.update({key: next_age})
+            #  print("Here+++++++++++++++++")
         return self.cache_data.get(key)
 
 

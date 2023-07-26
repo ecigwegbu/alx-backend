@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """3. LRU Caching"""
 from base_caching import BaseCaching
-from sys import maxsize
+# from sys import maxsize
+maxsize = 1000
 
 
 class LRUCache(BaseCaching):

@@ -19,7 +19,7 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> Any:
+def get_locale() -> str:
     """Get the best match locale for the user
     Uses the info in the riquest heder and the konfig"""
     locale = request.args.get('locale')
@@ -29,14 +29,17 @@ def get_locale() -> Any:
 
 
 @app.route("/")
-def force_locale_with_url_parameter() -> Any:
+def force_locale_with_url_parameter() -> str:
     """Basic Babel force lokale with URL - Flask app"""
-    home_title = _("Welcome to Holberton")
-    home_header = _("Hello World")
+    home_title = "Welcome to Holberton"
+    home_header = "Hello World"
 
     return render_template("4-index.html",
-                           home_title=home_title, home_header=home_header)
+                           home_title=_("%(home_title)s",
+                                        home_title=home_title),
+                           home_header=_("%(home_header)s",
+                                         home_header=home_header))
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)

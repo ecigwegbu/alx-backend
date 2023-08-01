@@ -14,14 +14,16 @@ class Config(object):
 
 
 app = Flask(__name__)
+app.secret_key = ("The_Eagle_Has_Landed_8")
+app.url_map.strict_slashes = False
 app.config.from_object(Config)
 babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> typing.Any:
+def get_locale() -> str:
     """Get the best match locale for the user
-    Uses the info in the riquest heder and the konfig"""
+    Uses the info in the riquest heder and the konfig and riquest url"""
     locale = request.args.get('locale')
     if locale is not None and locale in app.config["LANGUAGES"]:
         return locale
@@ -29,16 +31,12 @@ def get_locale() -> typing.Any:
 
 
 @app.route("/")
-def force_locale_with_url_parameter() -> typing.Any:
+def force_locale_with_url_parameter() -> str:
     """Basic Babel force lokale with URL - Flask app"""
-    home_title = "Welcome to Holberton"
-    home_header = "Hello World"
-
-    return render_template("4-index.html",
-                           home_title=_("%(home_title)s",
-                                        home_title=home_title),
-                           home_header=_("%(home_header)s",
-                                         home_header=home_header))
+    home_title = _("Welcome to Holberton")
+    home_header = _("Hello World")
+    return render_template("3-index.html", home_title=home_title,
+                           home_header=home_header)
 
 
 if __name__ == "__main__":

@@ -30,7 +30,8 @@ def get_locale():
 def parameterize_template():
     """Basic Basic Babel Flask app"""
 
-    return render_template('3-index.html', home_title=_('Welcome to Holberton'),
+    return render_template('3-index.html',
+                           home_title=_('Welcome to Holberton'),
                            home_header=_('Hello World'))
 
 

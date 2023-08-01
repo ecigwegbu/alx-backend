@@ -35,7 +35,7 @@ def force_locale_with_url_parameter() -> str:
     """Basic Babel force lokale with URL - Flask app"""
     home_title = _("Welcome to Holberton")
     home_header = _("Hello World")
-    return render_template("4-index.html", home_title=home_title,
+    return render_template("5-index.html", home_title=home_title,
                            home_header=home_header)
 
 

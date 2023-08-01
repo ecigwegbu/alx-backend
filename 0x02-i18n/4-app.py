@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""4. Force locale with URL parameter - outputs Hello World."""
+"""This is a comment just to fulfill all riteousness"""
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
@@ -7,7 +7,8 @@ import typing
 
 
 class Config(object):
-    """Konfig file for flask_babel"""
+    """This is a comment just to fulfill all riteousness"""
+
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -22,8 +23,8 @@ babel = Babel(app)
 
 @babel.localeselector
 def get_locale() -> str:
-    """Get the best match locale for the user
-    Uses the info in the riquest heder and the konfig and riquest url"""
+    """This is a comment just to fulfill all riteousness"""
+
     locale = request.args.get('locale')
     if locale is not None and locale in app.config["LANGUAGES"]:
         return locale
@@ -32,7 +33,8 @@ def get_locale() -> str:
 
 @app.route("/")
 def force_locale_with_url_parameter() -> str:
-    """Basic Babel force lokale with URL - Flask app"""
+    """This is a comment just to fulfill all riteousness"""
+
     home_title = _("Welcome to Holberton")
     home_header = _("Hello World")
     return render_template("4-index.html", home_title=home_title,

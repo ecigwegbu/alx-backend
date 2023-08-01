@@ -1,0 +1,7 @@
+v0
+*.git
+*.bak
+*.vscode
+node_modules
+.py.*
+venv

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""3. Parameterize templates - outputs Hello World."""
+"""4. Force locale with URL parameter - outputs Hello World."""
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
@@ -23,16 +23,19 @@ babel = Babel(app)
 def get_locale():
     """Get the best match locale for the user
     Uses the info in the request header and the config"""
+    locale = request.args.get('locale')
+    if locale is not None and locale in app.config["LANGUAGES"]:
+        return locale
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
 @app.route("/")
-def parameterize_template():
-    """Basic Basic Babel Flask app"""
-    home_title = 'Welcome to Holberton'
-    home_header = 'Hello World'
+def force_locale_with_url_parameter():
+    """Basic Babel - force locale with URL - Flask app"""
+    home_title = "Welcome to Holberton"
+    home_header = "Hello World"
 
-    return render_template('3-index.html',
+    return render_template("4-index.html",
                            home_title=_("%(home_title)s",
                                         home_title=home_title),
                            home_header=_("%(home_header)s",
@@ -40,4 +43,4 @@ def parameterize_template():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

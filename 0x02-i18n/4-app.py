@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
+from typing import List, Dict, Str, Any, Callabl, Unione
 
 
 class Config(object):

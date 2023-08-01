@@ -5,3 +5,5 @@ v0
 node_modules
 .py.*
 venv
+*.v*
+*.bak*

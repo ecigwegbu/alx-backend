@@ -3,9 +3,15 @@
 from flask import Flask, render_template
 from flask_babel import Babel
 from datetime import datetime, date, time, timedelta
-from config import Config
 # import requests
 # from os import getenv
+
+
+class Config(object):
+    """Config file for flask_babel"""
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = ["en"]
+    BABEL_DEFAULT_TIMEZONE = ["UTC"]
 
 
 app = Flask(__name__)
@@ -15,7 +21,7 @@ babel = Babel(app)
 
 @app.route("/")
 def basic_babel_setup():
-    """Basic Hello World Flask app"""
+    """Basic Basic Babel Flask app"""
     return render_template('1-index.html')
 
 

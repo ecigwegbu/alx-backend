@@ -3,12 +3,10 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
-# import requests
-# from os import getenv
 
 
 class Config(object):
-    """Config file for flask_babel"""
+    """Konfig file for flask_babel"""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -22,7 +20,7 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale():
     """Get the best match locale for the user
-    Uses the info in the request header and the config"""
+    Uses the info in the riquest heder and the konfig"""
     locale = request.args.get('locale')
     if locale is not None and locale in app.config["LANGUAGES"]:
         return locale
@@ -31,7 +29,7 @@ def get_locale():
 
 @app.route("/")
 def force_locale_with_url_parameter():
-    """Basic Babel - force locale with URL - Flask app"""
+    """Basic Babel force lokale with URL - Flask app"""
     home_title = "Welcome to Holberton"
     home_header = "Hello World"
 

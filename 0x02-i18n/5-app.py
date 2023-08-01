@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """4. Force locale with URL parameter - outputs Hello World."""
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
-import typing
+from typing import Dict, Optional, Any
 
 
 class Config(object):
@@ -18,6 +18,25 @@ app.secret_key = ("The_Eagle_Has_Landed_8")
 app.url_map.strict_slashes = False
 app.config.from_object(Config)
 babel = Babel(app)
+
+
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
+
+
+def get_user() -> Optional[Dict]:
+    """Get the user id"""
+    return request.args.get('login_as')
+
+
+@app.before_request
+def before_request() -> None:
+    """Do this first before any other function"""
+    g.user = get_user()
 
 
 @babel.localeselector
@@ -35,8 +54,15 @@ def force_locale_with_url_parameter() -> str:
     """Basic Babel force lokale with URL - Flask app"""
     home_title = _("Welcome to Holberton")
     home_header = _("Hello World")
+
+    if g.user:
+        status_message = _("You are logged in as %(username)s.",
+                           username=g.user)
+    else:
+        status_message = _("You are not logged in.")
     return render_template("5-index.html", home_title=home_title,
-                           home_header=home_header)
+                           home_header=home_header,
+                           status_message=status_message)
 
 
 if __name__ == "__main__":

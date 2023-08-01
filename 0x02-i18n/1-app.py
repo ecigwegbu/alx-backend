@@ -7,34 +7,21 @@ from datetime import datetime, date, time, timedelta
 # from os import getenv
 
 
-babel = Babel()
-
-
 class Config(object):
     """Config file for flask_babel"""
     LANGUAGES = ["en", "fr"]
-    LOCALE = ["en"]
-    TIMEZONE = ["UTC"]
-    # BABEL_DEFAULT_LOCALE = ["en"]
-    # BABEL_DEFAULT_TIMEZONE = ["UTC"]
+    BABEL_DEFAULT_LOCALE = ["en"]
+    BABEL_DEFAULT_TIMEZONE = ["UTC"]
 
 
-def create_app(config_class=Config):
-    """craete app object for the application"""
-    app = Flask(__name__)
-    app.config.from_object(config_class)
-
-    babel.init_app(app)
-
-    return app
-
-
-app = create_app()
+app = Flask(__name__)
+app.config.from_object(Config)
+babel = Babel(app)
 
 
 @app.route("/")
 def basic_babel_setup():
-    """Basic Babel Flask app"""
+    """Basic Basic Babel Flask app"""
     return render_template('1-index.html')
 
 

@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
-from typing import List, Dict, Any, Callable, Union
+import typing
 
 
 class Config(object):
@@ -19,7 +19,7 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> str:
+def get_locale() -> typing.Any:
     """Get the best match locale for the user
     Uses the info in the riquest heder and the konfig"""
     locale = request.args.get('locale')
@@ -29,7 +29,7 @@ def get_locale() -> str:
 
 
 @app.route("/")
-def force_locale_with_url_parameter() -> str:
+def force_locale_with_url_parameter() -> typing.Any:
     """Basic Babel force lokale with URL - Flask app"""
     home_title = "Welcome to Holberton"
     home_header = "Hello World"

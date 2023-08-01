@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
+import typing
 # import requests
 # from os import getenv
 
@@ -20,14 +21,14 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> typing.Any:
     """Get the best match locale for the user
     Uses the info in the request header and the config"""
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
 @app.route("/")
-def parameterize_template():
+def parameterize_template() -> typing.Any:
     """Basic Basic Babel Flask app"""
     home_title = 'Welcome to Holberton'
     home_header = 'Hello World'
@@ -40,4 +41,4 @@ def parameterize_template():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)

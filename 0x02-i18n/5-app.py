@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
-from typing import Dict, Optional, Any
+from typing import Dict, Optional, Union, Any
 
 
 class Config(object):
@@ -28,19 +28,28 @@ users = {
 }
 
 
-def get_user() -> Optional[Dict]:
+def get_user() -> Union[Dict, None]:
     """Get the user id"""
-    return request.args.get('login_as')
+    login_as = request.args.get('login_as')
+    if login_as:
+        for user_id, user in users.items():
+            if user["name"] == login_as:
+                return user
+    return None
 
 
 @app.before_request
 def before_request() -> None:
     """Do this first before any other function"""
-    g.user = get_user()
+    user = get_user()
+    if user:
+        g.user = user["name"]
+    else:
+        g.user = None
 
 
 @babel.localeselector
-def get_locale() -> str:
+def get_locale() -> Union[str, None]:
     """Get the best match locale for the user
     Uses the info in the riquest heder and the konfig and riquest url"""
     locale = request.args.get('locale')
@@ -66,4 +75,4 @@ def force_locale_with_url_parameter() -> str:
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)

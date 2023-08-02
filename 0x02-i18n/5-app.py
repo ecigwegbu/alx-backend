@@ -20,7 +20,7 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
-users = {
+users: Dict = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
     3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
@@ -33,6 +33,8 @@ def get_user() -> Union[Dict, None]:
     login_as = request.args.get('login_as')
     if login_as:
         for user_id, user in users.items():
+            print(f"\n____user is of type{type(user)}\n")
+            print(f"user name is {user['name']}")
             if user["name"] == login_as:
                 return user
     return None
@@ -75,4 +77,4 @@ def force_locale_with_url_parameter() -> str:
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)

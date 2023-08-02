@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""5. Force locale with URL parameter - outputs Hello World."""
+"""6. Force locale with URL parameter - outputs Hello World."""
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
@@ -55,9 +55,21 @@ def get_locale() -> Union[str, None]:
     """Get the best match locale for the user
     Uses the info in the riquest heder and the konfig and riquest url"""
     locale = request.args.get('locale')
+
     if locale is not None and locale in app.config["LANGUAGES"]:
         return locale
-    return request.accept_languages.best_match(app.config["LANGUAGES"])
+    if g.user:
+        for user_id, user in users.items():
+            if user["name"] == g.user:
+                locale = user["locale"]
+                break
+        if locale in app.config["LANGUAGES"]:
+            return locale
+    if request.headers.get('Accept-Language') and \
+            str(request.headers.get('Accept-Language'))[:1] in \
+            app.config["LANGUAGES"]:
+        return str(request.headers.get('Accept-Language'))[:1]
+    return app.config["BABEL_DEFAULT_LOCALE"]
 
 
 @app.route("/")
@@ -71,7 +83,7 @@ def force_locale_with_url_parameter() -> str:
                            username=g.user)
     else:
         status_message = _("You are not logged in.")
-    return render_template("5-index.html", home_title=home_title,
+    return render_template("6-index.html", home_title=home_title,
                            home_header=home_header,
                            status_message=status_message)
 

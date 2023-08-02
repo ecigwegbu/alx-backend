@@ -33,8 +33,6 @@ def get_user() -> Union[Dict, None]:
     login_as = request.args.get('login_as')
     if login_as:
         for user_id, user in users.items():
-            print(f"\n____user is of type{type(user)}\n")
-            print(f"user name is {user['name']}")
             if user["name"] == login_as:
                 return user
     return None

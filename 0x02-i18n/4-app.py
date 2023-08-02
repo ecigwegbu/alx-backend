@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
 from datetime import datetime, date, time, timedelta
-import typing
+from typing import Dict, Union, Any
 
 
 class Config(object):
@@ -21,7 +21,7 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale() -> str:
+def get_locale() -> Union[str, None]:
     """Get the best match locale for the user
     Uses the info in the riquest heder and the konfig and riquest url"""
     locale = request.args.get('locale')

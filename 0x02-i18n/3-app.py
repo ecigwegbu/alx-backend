@@ -31,7 +31,7 @@ def get_locale() -> Union[str, None]:
 def parameterize_template() -> str:
     """Basic Basic Babel Flask app"""
     home_title = _("Welcome to Holberton")
-    home_header = _("Hello World")
+    home_header = _("Hello world!")
     return render_template("3-index.html", home_title=home_title,
                            home_header=home_header)
 

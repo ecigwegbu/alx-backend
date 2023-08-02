@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""7. 7. Infer appropriate time zone -outputs Hello World."""
+"""8. Display The Current Time in The user's Locale -outputs Hello World."""
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, _
-from datetime import datetime, date, time, timedelta
+from datetime import datetime
 from typing import Dict, Optional, Union, Any
+from pytz import timezone
 import pytz
 
 
@@ -72,7 +73,7 @@ def get_locale() -> Union[str, None]:
 
 
 @babel.timezoneselector
-def get_timezone() -> Union[str, None]:
+def get_timezone() -> str:
     """get time zone for user locale"""
     tzone = request.args.get('timezone')
     if tzone is not None and is_valid_timezone(tzone):
@@ -107,9 +108,17 @@ def force_locale_with_url_parameter() -> str:
                            username=g.user)
     else:
         status_message = _("You are not logged in.")
-    return render_template("7-index.html", home_title=home_title,
+
+    tzone = timezone(str(get_timezone()))  # local timezone object
+
+    utc_now = datetime.utcnow()
+    curr_time = utc_now.astimezone(tzone).strftime("%c")
+    current_time_display = _("The current time is %(current_time)s.",
+                             current_time=curr_time)
+    return render_template("index.html", home_title=home_title,
                            home_header=home_header,
-                           status_message=status_message)
+                           status_message=status_message,
+                           current_time=current_time_display)
 
 
 if __name__ == "__main__":

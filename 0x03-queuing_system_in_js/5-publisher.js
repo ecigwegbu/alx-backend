@@ -3,8 +3,8 @@ import redis from 'redis';
 // import { promisify } from 'util';
 
 const client = redis.createClient();
-
 const channel = 'holberton school channel';
+
 function publishMessage(message, time) {
   setTimeout(() => {
     console.log(`About to send ${message}`);

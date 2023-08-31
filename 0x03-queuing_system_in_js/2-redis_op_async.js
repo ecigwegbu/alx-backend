@@ -19,7 +19,7 @@ async function displaySchoolValue(schoolName) {
     const result = await asyncGet(schoolName);
     console.log(result);
   } catch (err) {
-    console.log('Set Error', err);
+    console.log('Get Error', err);
   }
 }
 

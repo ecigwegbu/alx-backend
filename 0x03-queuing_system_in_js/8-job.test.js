@@ -1,30 +1,39 @@
-// Test for the Kue job creation module
+// Tests for the Kue job creation module
 import kue from 'kue';
+import { expect } from 'chai';
+import createPushNotificationsJobs from './8-job.js';
 
 const queue = kue.createQueue();
 
-export default function createPushNotificationsJobs(jobs, queue) {
-  // creates push notification jobs based on a given list of jobData and a queue
-  jobs.forEach((jobData) => {
-    if (!Array.isArray(jobs)) {
-      throw new Error('Jobs is not an array');
-    }
-    const job = queue.create('push_notification_code_3', jobData).save((err) => {
-      if (!err) {
-        console.log(`Notification job created: ${job.id}`);
-      }
-    });
-
-    job.on('complete', () => {
-      console.log(`Notification job ${job.id} completed`);
-    });
-
-    job.on('failed', (err) => {
-      console.log(`Notification job ${job.id} failed: ${err}`);
-    });
-
-    job.on('progress', (progress) => {
-      console.log(`Notification job ${job.id} ${progress}% complete`);
-    });
+describe('createPushNotificationsJobs', () => {
+  before(() => {
+    queue.testMode.enter();
   });
-}
+
+  afterEach(() => {
+    queue.testMode.clear();
+  });
+
+  after(() => {
+    queue.testMode.exit();
+  });
+
+  it('add jobs to queue', () => {
+    const jobs = [
+      { phoneNumber: '+1-234-8039799', message: 'He is alive!' },
+      { phoneNumber: '+44-800-2678971', message: 'The Eagle has landed' }
+    ];
+
+    createPushNotificationsJobs(jobs, queue);
+
+    expect(queue.testMode.jobs.length).to.equal(2);
+    expect(queue.testMode.jobs[0].type).to.equal('push_notification_code_3');
+    expect(queue.testMode.jobs[0].data).to.eql({ phoneNumber: '+1-234-8039799', message: 'He is alive!' });
+  });
+
+  it('throws error when not an array', () => {
+    expect(() => {
+      createPushNotificationsJobs('notAnArray', queue);
+    }).to.throw('Jobs is not an array');
+  });
+});
